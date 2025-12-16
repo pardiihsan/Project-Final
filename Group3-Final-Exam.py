@@ -174,50 +174,123 @@ elif page == "Optimization Solver":
         st.error(e)
 
 # ============================
-# PAGE 4: STORY OPTIMIZATION (angka manual)
+# PAGE 4: STORY OPTIMIZATION (soal cerita bentuk nyata)
 # ============================
 elif page == "Story Optimization":
     st.markdown("<div class='title'>Story-Based Calculation</div>", unsafe_allow_html=True)
-
-    st.info("Masukkan angka ke rumus untuk menghitung hasil langsung:")
+    st.info("Masukkan angka sesuai soal cerita, pilih bentuk geometri:")
 
     category = st.selectbox(
         "Pilih jenis soal:",
         ["Luas", "Keliling", "Volume", "Keuntungan"]
     )
 
-    # ===== LUAS =====
     if category == "Luas":
-        st.subheader("Luas Persegi Panjang")
-        panjang = st.number_input("Masukkan panjang (cm):", min_value=0.0, value=10.0)
-        lebar = st.number_input("Masukkan lebar (cm):", min_value=0.0, value=5.0)
-        luas = panjang * lebar
-        st.success(f"Luas = {panjang} × {lebar} = {luas} cm²")
+        st.subheader("Luas")
+        shape = st.selectbox("Pilih bentuk:", ["Persegi Panjang", "Segitiga", "Trapesium", "Lingkaran"])
 
-    # ===== KELILING =====
+        if shape == "Persegi Panjang":
+            panjang = st.number_input("Masukkan panjang:", value=10.0)
+            lebar = st.number_input("Masukkan lebar:", value=5.0)
+            luas = panjang * lebar
+            st.success(f"Luas = {panjang} × {lebar} = {luas}")
+
+        elif shape == "Segitiga":
+            alas = st.number_input("Masukkan alas:", value=8.0)
+            tinggi = st.number_input("Masukkan tinggi:", value=5.0)
+            luas = 0.5 * alas * tinggi
+            st.success(f"Luas = 0.5 × {alas} × {tinggi} = {luas}")
+
+        elif shape == "Trapesium":
+            a = st.number_input("Masukkan sisi sejajar a:", value=8.0)
+            b = st.number_input("Masukkan sisi sejajar b:", value=5.0)
+            tinggi = st.number_input("Masukkan tinggi:", value=4.0)
+            luas = 0.5 * (a + b) * tinggi
+            st.success(f"Luas = 0.5 × ({a} + {b}) × {tinggi} = {luas}")
+
+        elif shape == "Lingkaran":
+            r = st.number_input("Masukkan jari-jari:", value=7.0)
+            luas = math.pi * r**2
+            st.success(f"Luas = π × {r}² = {luas:.2f}")
+
     elif category == "Keliling":
-        st.subheader("Keliling Persegi Panjang")
-        panjang = st.number_input("Masukkan panjang (cm):", min_value=0.0, value=10.0)
-        lebar = st.number_input("Masukkan lebar (cm):", min_value=0.0, value=5.0)
-        keliling = 2 * (panjang + lebar)
-        st.success(f"Keliling = 2 × ({panjang} + {lebar}) = {keliling} cm")
+        st.subheader("Keliling")
+        shape = st.selectbox("Pilih bentuk:", ["Persegi Panjang", "Segitiga", "Trapesium", "Lingkaran"])
 
-    # ===== VOLUME =====
+        if shape == "Persegi Panjang":
+            panjang = st.number_input("Masukkan panjang:", value=10.0)
+            lebar = st.number_input("Masukkan lebar:", value=5.0)
+            keliling = 2 * (panjang + lebar)
+            st.success(f"Keliling = 2 × ({panjang} + {lebar}) = {keliling}")
+
+        elif shape == "Segitiga":
+            a = st.number_input("Sisi a:", value=5.0)
+            b = st.number_input("Sisi b:", value=6.0)
+            c = st.number_input("Sisi c:", value=7.0)
+            keliling = a + b + c
+            st.success(f"Keliling = {a} + {b} + {c} = {keliling}")
+
+        elif shape == "Trapesium":
+            a = st.number_input("Sisi a:", value=8.0)
+            b = st.number_input("Sisi b:", value=5.0)
+            c = st.number_input("Sisi c:", value=4.0)
+            d = st.number_input("Sisi d:", value=3.0)
+            keliling = a + b + c + d
+            st.success(f"Keliling = {a} + {b} + {c} + {d} = {keliling}")
+
+        elif shape == "Lingkaran":
+            r = st.number_input("Masukkan jari-jari:", value=7.0)
+            keliling = 2 * math.pi * r
+            st.success(f"Keliling = 2 × π × {r} = {keliling:.2f}")
+
     elif category == "Volume":
-        st.subheader("Volume Balok")
-        panjang = st.number_input("Masukkan panjang (cm):", min_value=0.0, value=10.0)
-        lebar = st.number_input("Masukkan lebar (cm):", min_value=0.0, value=5.0)
-        tinggi = st.number_input("Masukkan tinggi (cm):", min_value=0.0, value=8.0)
-        volume = panjang * lebar * tinggi
-        st.success(f"Volume = {panjang} × {lebar} × {tinggi} = {volume} cm³")
+        st.subheader("Volume")
+        shape = st.selectbox("Pilih bentuk:", ["Balok", "Tabung", "Prisma Segitiga", "Limas Segitiga"])
 
-    # ===== KEUNTUNGAN =====
+        if shape == "Balok":
+            p = st.number_input("Panjang:", value=10.0)
+            l = st.number_input("Lebar:", value=5.0)
+            t = st.number_input("Tinggi:", value=4.0)
+            volume = p * l * t
+            st.success(f"Volume = {p} × {l} × {t} = {volume}")
+
+        elif shape == "Tabung":
+            r = st.number_input("Jari-jari:", value=7.0)
+            t = st.number_input("Tinggi:", value=10.0)
+            volume = math.pi * r**2 * t
+            st.success(f"Volume = π × {r}² × {t} = {volume:.2f}")
+
+        elif shape == "Prisma Segitiga":
+            alas = st.number_input("Alas segitiga:", value=6.0)
+            tinggi_segitiga = st.number_input("Tinggi segitiga:", value=4.0)
+            panjang = st.number_input("Panjang prisma:", value=10.0)
+            volume = 0.5 * alas * tinggi_segitiga * panjang
+            st.success(f"Volume = 0.5 × {alas} × {tinggi_segitiga} × {panjang} = {volume}")
+
+        elif shape == "Limas Segitiga":
+            alas = st.number_input("Alas segitiga:", value=6.0)
+            tinggi_segitiga = st.number_input("Tinggi segitiga:", value=4.0)
+            tinggi_limas = st.number_input("Tinggi limas:", value=10.0)
+            volume = (1/3) * 0.5 * alas * tinggi_segitiga * tinggi_limas
+            st.success(f"Volume = 1/3 × 0.5 × {alas} × {tinggi_segitiga} × {tinggi_limas} = {volume}")
+
     elif category == "Keuntungan":
-        st.subheader("Keuntungan Usaha")
-        harga = st.number_input("Harga jual per unit:", min_value=0.0, value=50.0)
-        biaya_var = st.number_input("Biaya per unit:", min_value=0.0, value=20.0)
-        biaya_tetap = st.number_input("Biaya tetap:", min_value=0.0, value=100.0)
-        jumlah = st.number_input("Jumlah barang terjual:", min_value=0, value=10, step=1)
+        st.subheader("Keuntungan")
+        harga = st.number_input("Harga per unit:", value=50.0)
+        biaya = st.number_input("Biaya per unit:", value=20.0)
+        biaya_tetap = st.number_input("Biaya tetap:", value=100.0)
 
-        keuntungan = (harga - biaya_var) * jumlah - biaya_tetap
-        st.success(f"Keuntungan = ({harga} - {biaya_var}) × {jumlah} - {biaya_tetap} = {keuntungan}")
+        q = sp.symbols('q', real=True)
+        profit = harga*q - (biaya*q + biaya_tetap)
+
+        critical = sp.solve(sp.diff(profit, q), q)
+
+        st.latex("P(q) = harga·q - (biaya·q + biaya tetap)")
+        if critical:
+            st.success(f"""
+            Keuntungan maksimum saat:
+            q = {critical[0]}
+            Keuntungan maksimum = {profit.subs(q, critical[0])}
+            """)
+        else:
+            st.warning("Tidak ada titik maksimum (fungsi linear)")
