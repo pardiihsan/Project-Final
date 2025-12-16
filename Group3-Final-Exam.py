@@ -2,6 +2,8 @@ import streamlit as st
 import math
 import sympy as sp
 import numpy as np
+import matplotlib
+matplotlib.use("Agg")  # Agar matplotlib aman di deploy
 import matplotlib.pyplot as plt
 import base64
 
@@ -172,91 +174,50 @@ elif page == "Optimization Solver":
         st.error(e)
 
 # ============================
-# PAGE 4: STORY OPTIMIZATION
+# PAGE 4: STORY OPTIMIZATION (angka manual)
 # ============================
 elif page == "Story Optimization":
-    st.markdown("<div class='title'>Story-Based Optimization Solver</div>", unsafe_allow_html=True)
+    st.markdown("<div class='title'>Story-Based Calculation</div>", unsafe_allow_html=True)
 
-    st.info("""
-    Menyelesaikan soal cerita optimasi terbatas pada:
-    **Luas, Keliling, Volume, dan Keuntungan**
-    """)
+    st.info("Masukkan angka ke rumus untuk menghitung hasil langsung:")
 
     category = st.selectbox(
         "Pilih jenis soal:",
         ["Luas", "Keliling", "Volume", "Keuntungan"]
     )
 
-    x = sp.symbols('x', positive=True)
-
     # ===== LUAS =====
     if category == "Luas":
-        P = st.number_input("Keliling persegi panjang:", value=40.0)
-        y = (P / 2) - x
-        A = x * y
-
-        st.latex(f"A(x) = x({P}/2 - x)")
-        critical = sp.solve(sp.diff(A, x), x)[0]
-
-        st.success(f"""
-        Luas maksimum terjadi saat:
-        x = {critical}, y = {y.subs(x, critical)}
-        Luas maksimum = {A.subs(x, critical)}
-        """)
+        st.subheader("Luas Persegi Panjang")
+        panjang = st.number_input("Masukkan panjang (cm):", min_value=0.0, value=10.0)
+        lebar = st.number_input("Masukkan lebar (cm):", min_value=0.0, value=5.0)
+        luas = panjang * lebar
+        st.success(f"Luas = {panjang} × {lebar} = {luas} cm²")
 
     # ===== KELILING =====
     elif category == "Keliling":
-        L = st.number_input("Luas tetap:", value=100.0)
-        y = L / x
-        P = 2 * (x + y)
-
-        st.latex("P(x) = 2(x + L/x)")
-        critical = sp.solve(sp.diff(P, x), x)[0]
-
-        st.success(f"""
-        Keliling minimum terjadi saat:
-        x = {critical}, y = {y.subs(x, critical)}
-        Keliling minimum = {P.subs(x, critical)}
-        """)
+        st.subheader("Keliling Persegi Panjang")
+        panjang = st.number_input("Masukkan panjang (cm):", min_value=0.0, value=10.0)
+        lebar = st.number_input("Masukkan lebar (cm):", min_value=0.0, value=5.0)
+        keliling = 2 * (panjang + lebar)
+        st.success(f"Keliling = 2 × ({panjang} + {lebar}) = {keliling} cm")
 
     # ===== VOLUME =====
     elif category == "Volume":
-        st.warning("Contoh sederhana: kotak tanpa tutup")
-        L = st.number_input("Panjang karton:", value=20.0)
-        W = st.number_input("Lebar karton:", value=20.0)
-
-        V = x * (L - 2*x) * (W - 2*x)
-        critical = sp.solve(sp.diff(V, x), x)
-
-        critical = [c for c in critical if c.is_real and c > 0]
-
-        if critical:
-            c = critical[0]
-            st.latex("V(x) = x(L - 2x)(W - 2x)")
-            st.success(f"""
-            Volume maksimum saat x = {c}
-            Volume maksimum = {V.subs(x, c)}
-            """)
-        else:
-            st.warning("Tidak ada solusi valid.")
+        st.subheader("Volume Balok")
+        panjang = st.number_input("Masukkan panjang (cm):", min_value=0.0, value=10.0)
+        lebar = st.number_input("Masukkan lebar (cm):", min_value=0.0, value=5.0)
+        tinggi = st.number_input("Masukkan tinggi (cm):", min_value=0.0, value=8.0)
+        volume = panjang * lebar * tinggi
+        st.success(f"Volume = {panjang} × {lebar} × {tinggi} = {volume} cm³")
 
     # ===== KEUNTUNGAN =====
     elif category == "Keuntungan":
-        harga = st.number_input("Harga per unit:", value=50.0)
-        biaya = st.number_input("Biaya per unit:", value=20.0)
-        biaya_tetap = st.number_input("Biaya tetap:", value=100.0)
+        st.subheader("Keuntungan Usaha")
+        harga = st.number_input("Harga jual per unit:", min_value=0.0, value=50.0)
+        biaya_var = st.number_input("Biaya per unit:", min_value=0.0, value=20.0)
+        biaya_tetap = st.number_input("Biaya tetap:", min_value=0.0, value=100.0)
+        jumlah = st.number_input("Jumlah barang terjual:", min_value=0, value=10, step=1)
 
-        q = sp.symbols('q', real=True)
-        profit = harga*q - (biaya*q + biaya_tetap)
-
-        critical = sp.solve(sp.diff(profit, q), q)
-
-        if critical:
-            st.latex("P(q) = harga·q - (biaya·q + biaya tetap)")
-            st.success(f"""
-            Keuntungan maksimum saat:
-            q = {critical[0]}
-            Keuntungan maksimum = {profit.subs(q, critical[0])}
-            """)
-        else:
-            st.warning("Tidak ada titik maksimum.")
+        keuntungan = (harga - biaya_var) * jumlah - biaya_tetap
+        st.success(f"Keuntungan = ({harga} - {biaya_var}) × {jumlah} - {biaya_tetap} = {keuntungan}")
